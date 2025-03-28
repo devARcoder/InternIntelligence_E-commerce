@@ -6,7 +6,7 @@ const Header = () => {
     <header className="bg-blue-600 text-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-2xl md:text-3xl font-bold">
-          <Link to="/"><span className="text-green-500 text-4xl md:text-4xl">ARS</span></Link>
+          <Link to="/"><span className="text-orange-400 text-4xl md:text-4xl">ARS</span></Link>
         </h1>
         <nav>
           <ul className="flex space-x-4 md:text-xl">
