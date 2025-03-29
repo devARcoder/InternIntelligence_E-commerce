@@ -3,40 +3,44 @@ import { CartContext } from "../context/CartContext";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const { cart, removeFromCart, clearCart } = useContext(CartContext);
-
-  if (cart.length === 0) {
-    return (
-      <div className="p-8 text-center">
-        <h2 className="text-4xl font-bold">Your Cart is Empty</h2>
-        <Link to="/products" className="text-blue-500 mt-4 inline-block">
-          Browse Products
-        </Link>
-      </div>
-    );
-  }
+  const { cart, removeFromCart } = useContext(CartContext);
+  const totalAmount = cart.reduce((total, item) => total + item.price, 0).toFixed(2);
 
   return (
     <div className="p-8 text-center">
       <h2 className="text-4xl font-bold">Shopping Cart</h2>
-      <div className="mt-6">
-        {cart.map((item) => (
-          <div key={item.id} className="flex justify-between items-center border p-4 mt-2">
-            <img src={item.image} alt={item.title} className="h-20" />
-            <p className="text-lg">{item.title}</p>
-            <p className="font-semibold">${item.price}</p>
-            <button className="text-red-500" onClick={() => removeFromCart(item.id)}>
-              Remove
+
+      {cart.length === 0 ? (
+        <p className="mt-4">Your cart is empty.</p>
+      ) : (
+        <div className="mt-6">
+          {cart.map((item) => (
+            <div key={item.id} className="border p-4 rounded shadow mb-4 flex flex-col justify-center md:flex md:flex-row md:justify-between md:items-center">
+              <div className="flex flex-col  items-center md:flex md:flex-row space-x-3">
+                <img className="w-24 h-24 object-cover" src={item.image} alt="" />
+                <div className="flex flex-col md:flex md:flex-col md:justify-center md:items-start md:space-y-3">
+                <h3 className="text-lg font-semibold">{item.title}</h3>
+                <p className="text-gray-700 text-xl">${item.price}</p>
+                </div>
+              </div>
+              <button
+                className="bg-red-500 text-white h-12 px-4 py-2 rounded "
+                onClick={() => removeFromCart(item.id)}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+
+          <p className="mt-4 text-lg">Total: <span className="font-bold">${totalAmount}</span></p>
+
+          <Link to="/checkout">
+            <button className="mt-4 px-6 py-3 bg-blue-500 text-white rounded">
+              Proceed to Checkout
             </button>
-          </div>
-        ))}
-      </div>
-      <button className="bg-red-600 text-white px-4 py-2 mt-4" onClick={clearCart}>
-        Clear Cart
-      </button>
-      <Link to="/checkout" className="bg-green-600 text-white px-4 py-2 mt-4 ml-4">
-        Proceed to Checkout
-      </Link>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

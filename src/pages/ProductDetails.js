@@ -1,74 +1,41 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
 
 const ProductDetails = () => {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [category, setCategory] = useState("");
-  const [sort, setSort] = useState("");
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const { addToCart, notification } = useContext(CartContext);
 
   useEffect(() => {
-    axios.get("https://fakestoreapi.com/products")
-      .then(response => {
-        setProducts(response.data);
-        setFilteredProducts(response.data);
-      })
-      .catch(error => console.error("Error fetching products:", error));
-  }, []);
+    axios.get(`https://fakestoreapi.com/products/${id}`)
+      .then(response => setProduct(response.data))
+      .catch(error => console.error("Error fetching product:", error));
+  }, [id]);
 
-  const handleFilter = (category) => {
-    setCategory(category);
-    if (category === "") {
-      setFilteredProducts(products);
-    } else {
-      setFilteredProducts(products.filter(product => product.category === category));
-    }
-  };
-
-  const handleSort = (option) => {
-    setSort(option);
-    let sortedProducts = [...filteredProducts];
-    if (option === "price-low-high") {
-      sortedProducts.sort((a, b) => a.price - b.price);
-    } else if (option === "price-high-low") {
-      sortedProducts.sort((a, b) => b.price - a.price);
-    }
-    setFilteredProducts(sortedProducts);
-  };
+  if (!product) return <p className="text-center">Loading...</p>;
 
   return (
-    <div className="p-8 text-center">
-      <h2 className="text-4xl font-bold">Products</h2>
+    <div className="p-8 text-center relative">
+      <h2 className="text-4xl font-bold">{product.title}</h2>
+      <img src={product.image} alt={product.title} className="h-80 mx-auto mt-4" />
+      <p className="text-gray-700 mt-4">{product.description}</p>
+      <p className="text-xl font-semibold mt-4">Price: ${product.price}</p>
+      
+      <button
+        onClick={() => addToCart(product)}
+        className="mt-4 px-4 py-2 bg-green-500 text-white rounded"
+      >
+        Add to Cart
+      </button>
 
-      {/* Filter & Sorting Options */}
-      <div className="flex justify-center gap-4 mt-4">
-        <select value={category} onChange={(e) => handleFilter(e.target.value)} className="border p-2">
-          <option value="">All Categories</option>
-          <option value="electronics">Electronics</option>
-          <option value="jewelery">Jewelry</option>
-          <option value="men's clothing">Men's Clothing</option>
-          <option value="women's clothing">Women's Clothing</option>
-        </select>
-
-        <select value={sort} onChange={(e) => handleSort(e.target.value)} className="border p-2">
-          <option value="">Sort By</option>
-          <option value="price-low-high">Price: Low to High</option>
-          <option value="price-high-low">Price: High to Low</option>
-        </select>
-      </div>
-
-      {/* Product Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-        {filteredProducts.map(product => (
-          <div key={product.id} className="border p-4 rounded shadow">
-            <img src={product.image} alt={product.title} className="h-40 mx-auto" />
-            <h3 className="text-lg font-semibold mt-2">{product.title}</h3>
-            <p className="text-gray-700">${product.price}</p>
-            <Link to={`/product/${product.id}`} className="text-blue-500">View Details</Link>
-          </div>
-        ))}
-      </div>
+      {/* ✅ Display Notification */}
+      {notification && (
+        <div className="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-500">
+          {notification}
+        </div>
+      )}
     </div>
   );
 };

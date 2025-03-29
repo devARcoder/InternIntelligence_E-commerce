@@ -14,10 +14,10 @@ const Home = () => {
   return (
     <div className="p-8 text-center">
       {/* 🔥 Hero Section */}
-      <section className="bg-blue-500 text-white p-16 rounded-lg">
+      <section className="bg-green-500 text-white p-16 rounded-lg">
         <h1 className="text-5xl font-bold">Welcome to Our Store</h1>
         <p className="text-lg mt-2">Best deals on top-quality products</p>
-        <Link to="/products" className="mt-4 inline-block bg-white text-blue-500 px-6 py-3 rounded-lg font-semibold">Shop Now</Link>
+        <Link to="/products" className="mt-4 inline-block bg-green-600 text-white hover:text-white hover:border hover:bg-green-600 px-6 py-3 rounded-lg font-semibold">Shop Now</Link>
       </section>
 
       {/* 🛍️ Categories Section */}
@@ -40,17 +40,17 @@ const Home = () => {
               <img src={product.image} alt={product.title} className="h-40 mx-auto" />
               <h3 className="text-lg font-semibold mt-2">{product.title}</h3>
               <p className="text-gray-700">${product.price}</p>
-              <Link to={`/product/${product.id}`} className="text-blue-500">View Details</Link>
+              
             </div>
           ))}
         </div>
       </section>
 
       {/* 🎉 Promotions */}
-      <section className="mt-12 bg-yellow-300 p-8 rounded-lg">
+      <section className="mt-12 bg-green-400 p-8 rounded-lg">
         <h2 className="text-3xl font-bold">Limited Time Offer!</h2>
         <p className="mt-2 text-lg">Get up to 50% off on selected items.</p>
-        <Link to="/products" className="mt-4 inline-block bg-black text-white px-6 py-3 rounded-lg font-semibold">Shop Now</Link>
+        <Link to="/products" className="mt-4 inline-block bg-transparent border border-black hover:bg-green-500 hover:border-green-500 text-black px-6 py-3 rounded-lg font-semibold">Shop Now</Link>
       </section>
     </div>
   );
