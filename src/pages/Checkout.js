@@ -34,6 +34,7 @@ const Checkout = () => {
       >
         {isProcessing ? "Processing Order..." : "Place Order"}
       </button>
+      
     </div>
   );
 };

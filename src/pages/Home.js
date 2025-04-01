@@ -47,10 +47,10 @@ const Home = () => {
       </section>
 
       {/* 🎉 Promotions */}
-      <section className="mt-12 bg-green-400 p-8 rounded-lg">
+      <section className="mt-12 bg-green-400 p-8 text-white rounded-lg">
         <h2 className="text-3xl font-bold">Limited Time Offer!</h2>
         <p className="mt-2 text-lg">Get up to 50% off on selected items.</p>
-        <Link to="/products" className="mt-4 inline-block bg-transparent border border-black hover:bg-green-500 hover:border-green-500 text-black px-6 py-3 rounded-lg font-semibold">Shop Now</Link>
+        <Link to="/products" className="mt-4 inline-block bg-transparent border border-white hover:bg-green-500 hover:border-green-500 text-white px-6 py-3 rounded-lg font-semibold">Shop Now</Link>
       </section>
     </div>
   );
