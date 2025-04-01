@@ -5,7 +5,8 @@ import { CartContext } from "../context/CartContext";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, notification } = useContext(CartContext);
+  
 
   useEffect(() => {
     axios
@@ -30,10 +31,16 @@ const ProductList = () => {
               >
                 Add to Cart
               </button>
-              <Link to={`/product/${product.id}`} className="text-blue-500 text-sm">
+              <Link to={`/product/${product.id}`} className="text-blue-500 border border-gray-500 px-4 py-2 rounded text-sm">
                 View Details
               </Link>
             </div>
+            {/* ✅ Display Notification */}
+      {notification && (
+        <div className="fixed top-20 right-5 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg transition-opacity duration-500">
+          {notification}
+        </div>
+      )}
           </div>
         ))}
       </div>
